@@ -4,11 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-
         play();
-//        Scanner keyboard = new Scanner(System.in);
-//        System.out.println("Game over! Would you like to play again?");
-//        String x = keyboard.next();
     }
 
     public static void play() {
@@ -31,26 +27,7 @@ public class Main {
 
             double rand = Math.random();
             if (rand <= 0.5) {
-                Goblin goblin = new Goblin();
-                while (hero1.get_health_points() > 0 && goblin.get_health_points()>0 ) {
-                    // hero attacks first
-                    int attack_power_remaining = hero1.get_attack_power();
-                    if (goblin.get_defense_power() - hero1.get_attack_power() < 0) {
-                        attack_power_remaining = hero1.get_attack_power() - goblin.get_defense_power();
-                        goblin.set_defense_power(0);
-                        if (goblin.get_health_points() - attack_power_remaining > 0) {
-                            // goblin still alive
-                            goblin.set_health_points(goblin.get_health_points() - attack_power_remaining);
-                            // now goblin attacks hero
-                        }
-                        else { // goblin dies
-                            hero1.set_goblins_slain(hero1.get_goblins_slain() + 1);
-                            hero1.set_gold(hero1.get_gold() + 2);
-                        }
-                    } else goblin.set_defense_power(goblin.get_defense_power() - hero1.get_attack_power());
-//                if goblin.get_defense_power()-hero1.get_attack_power()
-//                goblin.set_defense_power(goblin.get_defense_power()-hero1.get_attack_power());
-                }
+                fight(hero1);
             }
 
         }
@@ -67,6 +44,40 @@ public class Main {
             }
             new_potion_array[5] = hero1.get_potions()[5]+request_amount;
             hero1.set_potions(new_potion_array);
+        }
+    }
+
+    public static void play_again_prompt() {
+        Scanner keyboard = new Scanner(System.in);
+        System.out.println("Game over! Would you like to play again?");
+        String x = keyboard.next();
+    }
+
+    public static void fight(Hero hero1) {
+        Goblin goblin = new Goblin();
+        while (hero1.get_health_points() > 0 && goblin.get_health_points()>0 ) {
+            // hero attacks first
+            int attack_power_remaining = hero1.get_attack_power();
+            if (goblin.get_defense_power() - hero1.get_attack_power() < 0) {
+                attack_power_remaining = hero1.get_attack_power() - goblin.get_defense_power();
+                goblin.set_defense_power(0);
+                if (goblin.get_health_points() - attack_power_remaining > 0) { // goblin alive
+                    goblin.set_health_points(goblin.get_health_points() - attack_power_remaining);
+                    attack_power_remaining = goblin.get_attack_power();
+                    if (hero1.get_defense_power() - attack_power_remaining > 0) {
+                        hero1.set_health_points(hero1.get_defense_power() - attack_power_remaining);
+                        attack_power_remaining = attack_power_remaining - hero1.get_defense_power();
+                        // affect health points
+                    }
+                    else { play_again_prompt(); }
+                }
+                else { // goblin dies
+                    hero1.set_goblins_slain(hero1.get_goblins_slain() + 1);
+                    hero1.set_gold(hero1.get_gold() + 2);
+                }
+            } else goblin.set_defense_power(goblin.get_defense_power() - hero1.get_attack_power());
+//                if goblin.get_defense_power()-hero1.get_attack_power()
+//                goblin.set_defense_power(goblin.get_defense_power()-hero1.get_attack_power());
         }
     }
 
