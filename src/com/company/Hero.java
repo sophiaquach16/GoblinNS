@@ -12,6 +12,7 @@ public class Hero {
         private int[] potions;
         private int gold;
         private int level;
+        private int goblins_slain;
 
 
         public Hero() {
@@ -21,6 +22,7 @@ public class Hero {
                 this.potions = new int[]{2, 2, 2, 2, 2};
                 this.gold = 0;
                 this.level = 0;
+                this.goblins_slain = 0;
         }
 
         public Hero(int gold) {
@@ -37,6 +39,7 @@ public class Hero {
         public int get_level() { return level; }
         public int get_gold() { return gold; }
         public int[] get_potions() { return potions;}
+        public int get_goblins_slain() { return goblins_slain; }
 
         public void set_health_points(int health_points) { this.health_points = health_points; }
         public void set_attack_power(int attack_power) { this.attack_power = attack_power; }
@@ -44,5 +47,5 @@ public class Hero {
         public void set_level(int level) { this.level = level; }
         public void set_gold(int gold) { this.gold = gold; }
         public void set_potions(int[] potions) {this.potions = potions;}
-
+        public void set_goblins_slain(int goblins_slain) { this.goblins_slain = goblins_slain; }
 }

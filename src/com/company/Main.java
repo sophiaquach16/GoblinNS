@@ -30,12 +30,27 @@ public class Main {
             }
 
             double rand = Math.random();
-            if (rand <= 50) {
+            if (rand <= 0.5) {
                 Goblin goblin = new Goblin();
-                // hero attacks first
-                int goblin_current_health = goblin.get_defense_power()-hero1.get_attack_power();
+                while (hero1.get_health_points() > 0 && goblin.get_health_points()>0 ) {
+                    // hero attacks first
+                    int attack_power_remaining = hero1.get_attack_power();
+                    if (goblin.get_defense_power() - hero1.get_attack_power() < 0) {
+                        attack_power_remaining = hero1.get_attack_power() - goblin.get_defense_power();
+                        goblin.set_defense_power(0);
+                        if (goblin.get_health_points() - attack_power_remaining > 0) {
+                            // goblin still alive
+                            goblin.set_health_points(goblin.get_health_points() - attack_power_remaining);
+                            // now goblin attacks hero
+                        }
+                        else { // goblin dies
+                            hero1.set_goblins_slain(hero1.get_goblins_slain() + 1);
+                            hero1.set_gold(hero1.get_gold() + 2);
+                        }
+                    } else goblin.set_defense_power(goblin.get_defense_power() - hero1.get_attack_power());
 //                if goblin.get_defense_power()-hero1.get_attack_power()
 //                goblin.set_defense_power(goblin.get_defense_power()-hero1.get_attack_power());
+                }
             }
 
         }
